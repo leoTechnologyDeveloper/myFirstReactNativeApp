@@ -2,16 +2,9 @@ import uuid from "react-native-uuid";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import ModalBorrar from "./src/components/ModalBorrar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  FlatList,
-  Modal,
-  ScrollView,
-} from "react-native";
+
+import { StyleSheet, Text, View, Button, FlatList } from "react-native";
+import SumarTarea from "./src/components/SumarTarea";
 
 export default function App() {
   const [tareaSeleccionada, setTareaSeleccionada] = useState({});
@@ -55,26 +48,13 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <View style={styles.containerInput}>
-        <TextInput
-          value={nuevoTitulo}
-          placeholder="Escribir Título"
-          style={styles.input}
-          onChangeText={handleTitleText}
-        />
-        <TextInput
-          value={nuevaDescripcion}
-          placeholder="Escribir Descripción"
-          style={styles.input}
-          onChangeText={handleDescripcionText}
-        />
-
-        <Button
-          title="Añadir Tarea"
-          onPress={handleBotonAñadirTarea}
-          color={"#652586"}
-        />
-      </View>
+      <SumarTarea
+        nuevoTitulo={nuevoTitulo}
+        handleTitleText={handleTitleText}
+        nuevaDescripcion={nuevaDescripcion}
+        handleDescripcionText={handleDescripcionText}
+        handleBotonAñadirTarea={handleBotonAñadirTarea}
+      />
       <View>
         <FlatList
           data={tareas}
@@ -110,20 +90,11 @@ const styles = StyleSheet.create({
     backgroundColor: "darkblue",
     alignItems: "start",
   },
-  containerInput: {
-    gap: 10,
-  },
+
   text: {
     fontSize: 30,
   },
-  input: {
-    padding: 5,
-    borderRadius: 10,
-    backgroundColor: "white",
-    color: "black",
-    fontWeight: "500",
-    fontSize: 30,
-  },
+
   botonAdicionar: {
     fontSize: 50,
     backgroundColor: "green",
