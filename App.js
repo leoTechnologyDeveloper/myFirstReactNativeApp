@@ -17,6 +17,7 @@ export default function App() {
   const [nuevoTitulo, setNuevoTitulo] = useState("");
   const [nuevaDescripcion, setNuevaDescripcion] = useState("");
   const [tareas, setTareas] = useState([]);
+  const [modalState, setModalState] = useState(false);
 
   const handleTitleText = (e) => {
     setNuevoTitulo(e);
@@ -27,16 +28,27 @@ export default function App() {
   };
 
   const handleBotonAñadirTarea = () => {
+    console.log("el state del modal es ", modalState);
     const newTarea = {
       titulo: nuevoTitulo,
       descripcion: nuevaDescripcion,
       id: uuid.v4(),
-      // id: 5,
     };
 
     setTareas([...tareas, newTarea]);
     setNuevoTitulo("");
     setNuevaDescripcion("");
+  };
+
+  const handleBorrarTarea = (item) => {
+    setTareaSeleccionada(item);
+    setModalState(!modalState);
+    console.log("el state del modal es ", modalState);
+  };
+
+  const borrarTarea = () => {
+    setTareas(tareas.filter((tarea) => tarea.id != tareaSeleccionada.id));
+    setModalState(false);
   };
 
   return (
@@ -69,10 +81,24 @@ export default function App() {
           renderItem={({ item }) => (
             <View style={styles.tareaOnTheList}>
               <Text style={styles.text}>{item.titulo}</Text>
-              <Text style={styles.text}>{item.description}</Text>
+              <Text style={styles.text}>{item.descripcion}</Text>
+              <Button
+                title="Borrar"
+                onPress={() => handleBorrarTarea(item)}
+                color={"#990000"}
+              />
             </View>
           )}
         />
+        <Modal visible={modalState}>
+          <View>
+            <Text>
+              Esta seguro de eliminar esta tarea ? {tareaSeleccionada.titulo}
+            </Text>
+            <Button title="YES" onPress={borrarTarea} color={"#009900"} />
+            <Button title="NOP" onPress={handleBorrarTarea} color={"#000099"} />
+          </View>
+        </Modal>
       </View>
     </View>
   );
@@ -89,7 +115,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   text: {
-    fontSize: 50,
+    fontSize: 30,
   },
   input: {
     padding: 5,
@@ -104,7 +130,7 @@ const styles = StyleSheet.create({
     backgroundColor: "green",
   },
   tareaOnTheList: {
-    backgroundColor: "#A7DB12",
+    backgroundColor: "whitesmoke",
     color: "black",
     margin: 10,
     padding: 5,
