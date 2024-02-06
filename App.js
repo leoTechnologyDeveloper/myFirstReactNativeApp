@@ -1,6 +1,7 @@
 import uuid from "react-native-uuid";
 import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
+import ModalBorrar from "./src/components/ModalBorrar";
 import {
   StyleSheet,
   Text,
@@ -53,7 +54,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* <StatusBar style="auto" /> */}
+      <StatusBar style="auto" />
       <View style={styles.containerInput}>
         <TextInput
           value={nuevoTitulo}
@@ -90,15 +91,12 @@ export default function App() {
             </View>
           )}
         />
-        <Modal visible={modalState}>
-          <View>
-            <Text>
-              Esta seguro de eliminar esta tarea ? {tareaSeleccionada.titulo}
-            </Text>
-            <Button title="YES" onPress={borrarTarea} color={"#009900"} />
-            <Button title="NOP" onPress={handleBorrarTarea} color={"#000099"} />
-          </View>
-        </Modal>
+        <ModalBorrar
+          modalState={modalState}
+          borrarTarea={borrarTarea}
+          handleBorrarTarea={handleBorrarTarea}
+          tareaSeleccionada={tareaSeleccionada}
+        />
       </View>
     </View>
   );
@@ -106,6 +104,7 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
+    // paddingTop: 40,
     padding: 10,
     flex: 1,
     backgroundColor: "darkblue",
