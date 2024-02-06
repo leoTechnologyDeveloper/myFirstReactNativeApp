@@ -5,6 +5,7 @@ import ModalBorrar from "./src/components/ModalBorrar";
 
 import { StyleSheet, Text, View, Button, FlatList } from "react-native";
 import SumarTarea from "./src/components/SumarTarea";
+import ListadoTareas from "./src/components/ListadoTareas";
 
 export default function App() {
   const [tareaSeleccionada, setTareaSeleccionada] = useState({});
@@ -47,7 +48,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <StatusBar style="auto" />
       <SumarTarea
         nuevoTitulo={nuevoTitulo}
         handleTitleText={handleTitleText}
@@ -56,21 +56,7 @@ export default function App() {
         handleBotonAñadirTarea={handleBotonAñadirTarea}
       />
       <View>
-        <FlatList
-          data={tareas}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <View style={styles.tareaOnTheList}>
-              <Text style={styles.text}>{item.titulo}</Text>
-              <Text style={styles.text}>{item.descripcion}</Text>
-              <Button
-                title="Borrar"
-                onPress={() => handleBorrarTarea(item)}
-                color={"#990000"}
-              />
-            </View>
-          )}
-        />
+        <ListadoTareas tareas={tareas} handleBorrarTarea={handleBorrarTarea} />
         <ModalBorrar
           modalState={modalState}
           borrarTarea={borrarTarea}
@@ -87,7 +73,7 @@ const styles = StyleSheet.create({
     // paddingTop: 40,
     padding: 10,
     flex: 1,
-    backgroundColor: "darkblue",
+    backgroundColor: "navy",
     alignItems: "start",
   },
 
@@ -98,12 +84,5 @@ const styles = StyleSheet.create({
   botonAdicionar: {
     fontSize: 50,
     backgroundColor: "green",
-  },
-  tareaOnTheList: {
-    backgroundColor: "whitesmoke",
-    color: "black",
-    margin: 10,
-    padding: 5,
-    height: "auto",
   },
 });
